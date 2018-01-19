@@ -5,7 +5,7 @@ CREATE DATABASE userlist;
 
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
-  username VARCHAR
+  username VARCHAR UNIQUE
 );
 
 INSERT INTO users (username)

@@ -30,8 +30,10 @@ class NewUser extends React.Component {
         this.setState({ usernameInput: "", message: "Inserted User" });
       })
       .catch(err => {
-        console.log("error: ", err);
-        this.setState({ usernameInput: "", message: "Error inserting user" });
+        console.log(err.response);
+        this.setState({
+          message: `Error inserting user: ${err.response.data}`
+        });
       });
   };
 
