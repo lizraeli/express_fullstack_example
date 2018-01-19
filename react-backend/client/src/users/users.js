@@ -8,42 +8,20 @@ class Users extends React.Component {
   state = { users: [] };
 
   componentDidMount() {
+    this.fetchUsers();
+  }
+
+  fetchUsers = () => {
     fetch("/users")
       .then(res => res.json())
       .then(res => {
         this.setState({ users: res.data });
       });
-  }
+  };
 
   renderUserList = () => {
     const { users } = this.state;
-    console.log("users: ", users);
     return <UserList users={users} />;
-  };
-
-  addUser = user => {
-    const { users } = this.state;
-    this.setState({
-      users: [...users, user]
-    });
-  };
-
-  updateUser = ({ username, newName }) => {
-    const { users } = this.state;
-
-    const newUsers = users.map(user => {
-      if (user.username === username) {
-        return { ...user, username: newName };
-      } else {
-        return user;
-      }
-    });
-
-    // The above with the ternary operator
-    // const newUsers = users.map(user =>
-    //   user.username === username ? { ...user, username: newName } : user )
-
-    this.setState({ users: newUsers });
   };
 
   renderUser = props => {
@@ -59,8 +37,11 @@ class Users extends React.Component {
     if (!selectedUser) {
       return <div> Could not find user </div>;
     }
-    console.log("users.js render user");
-    return <SingleUser user={selectedUser} updateUser={this.updateUser} />;
+    return <SingleUser user={selectedUser} fetchUsers={this.fetchUsers} />;
+  };
+
+  renderNewUser = () => {
+    return <NewUser fetchUsers={this.fetchUsers} />;
   };
 
   render() {
@@ -73,7 +54,7 @@ class Users extends React.Component {
         </nav>
 
         <Route exact path="/users" render={this.renderUserList} />
-        <Route path="/users/new" component={NewUser} />
+        <Route path="/users/new" render={this.renderNewUser} />
         <Route path="/users/:id/edit" render={this.renderUser} />
       </div>
     );

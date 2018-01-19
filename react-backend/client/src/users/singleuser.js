@@ -45,10 +45,11 @@ class SingleUser extends React.Component {
       })
       .then(res => {
         console.log("updated user");
-        this.props.updateUser({ username, newName });
+        this.props.fetchUsers();
         this.setState({ editing: false });
       })
       .catch(err => {
+        console.log("error: ", err);
         console.log(err.response.data);
         this.setState({
           message: `error changing username: ${err.response.data}`

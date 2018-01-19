@@ -26,11 +26,10 @@ class NewUser extends React.Component {
         username: this.state.usernameInput
       })
       .then(res => {
-        console.log(res.data);
+        this.props.fetchUsers();
         this.setState({ usernameInput: "", message: "Inserted User" });
       })
       .catch(err => {
-        console.log(err.response);
         this.setState({
           message: `Error inserting user: ${err.response.data}`
         });
